@@ -1,0 +1,10 @@
+task: wisesight_sentiment
+dataset_path: pythainlp/wisesight_sentiment
+dataset_name: null
+output_type: multiple_choice
+training_split: train
+validation_split: validation
+doc_to_text: query
+doc_to_target: gold
+doc_to_choice: choices
+process_docs: !function util.process_docs
