@@ -1,13 +1,8 @@
 
-<<<<<<< HEAD
 # Model Evaluation
 
 ## lm-evaluation-harness (https://github.com/EleutherAI/lm-evaluation-harness)
 
-=======
-## lm-evaluation-harness (https://github.com/EleutherAI/lm-evaluation-harness)
-
->>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
 lm-eval-harness เป็นเครื่องมือที่ใช้ในการทดสอบประสิทธิภาพของโมเดลภาษา (Language Models หรือ LM) ในงานต่าง ๆ เช่น การตอบคำถาม, การทำนายคำต่อไป, หรือการแปลภาษา โดยเครื่องมือนี้จะช่วยวัดความสามารถของโมเดลในการทำงานตาม task ที่กำหนด และให้ประเมินผลลัพธ์ในรูปแบบของค่า metrices ต่าง ๆ เช่น accuracy หรือ similarity
 
 lm-eval-harness ถูกออกแบบให้ใช้งานง่าย และรองรับการตั้งค่า เช่น ขนาดของ batch, การเลือกว่าจะใช้ CPU หรือ GPU ในการประมวลผล, และการใช้ระบบ cache เพื่อเร่งความเร็วในการ test
@@ -18,10 +13,6 @@ lm-eval-harness ถูกออกแบบให้ใช้งานง่า�
 ```bash
 git clone https://github.com/EleutherAI/lm-evaluation-harness
 cd lm-evaluation-harness
-<<<<<<< HEAD
-=======
-git checkout tags/v0.4.3
->>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
 pip install -e lm-evaluation-harness
 ```
 
@@ -55,15 +46,11 @@ pip install -e lm-evaluation-harness
 | `--predict_only`         | `-x`             | `bool`   | `False`              | ใช้ร่วมกับ `--log_samples` บันทึกเฉพาะผลลัพธ์ของโมเดลและจะไม่ประเมินค่ามาตรวัด                                                                                                             |
 | `--seed`                 | `None`           | `str`    | `"0,1234,1234,1234"` | กำหนด seed สำหรับ `random`, `numpy`, `torch`, และการสุ่มตัวอย่าง fewshot ค่าเริ่มต้นคือ `"0,1234,1234,1234"`                  |
 | `--trust_remote_code`    | `None`           | `bool`   | `False`              | `trust_remote_code` เป็น `True` เพื่อสร้าง HF Datasets จาก Hub                                                                                                |
-<<<<<<< HEAD
 
 ## Run Evaluation Scripts
-=======
->>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
 
 ### Custom Pipeline
 
-<<<<<<< HEAD
 This section provides scripts for running evaluations on different datasets using pre-trained models. Make sure to follow the instructions for each task to ensure proper setup and execution.
 
 #### 1. ThaiSUM
@@ -206,68 +193,3 @@ XNLI is a cross-linguistic version of the NLI (Natural Language Inference) datas
 ### Thai Exam
 - We forked from `OpenThaiGPT/openthaigpt_eval` so that will further customize to add prompts
 - read this:
-=======
-## Run Evaluation Scripts
-
-### Custom Pipeline
-
-#### 1. ThaiSUM
-
-`python scripts\thaisum\thaisum.py --pretrained "preechanon/mt5-base-thaisum-text-summarization" --dataset "nakhun/thaisum" --split "test"`
-
-
-#### 2. lst20
-- Download lst20 dataset from https://aiforthai.in.th/corpus.php by login > corpus > LST20 Corpus > download
-
-- Extract `AIFORTHAI-LST20Corpus.tar.gz` to your deseire path 
-
-- `python scripts\lst20\lst20.py --cuda --pretrained pythainlp/thainer-corpus-v2-base-model --lst20_path AIFORTHAI-LST20Corpus\LST20_Corpus --split test`
-
-#### 3. wisesight_sentiment 
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/wisesight_sentiment`
-
-### Custom YAML file used with `lm-evaluation-harness` -> Translated Dataset
-
-#### 1. Hellaswag_TH
-   
-- From: [`Patt/HellaSwag_thai`](https://huggingface.co/datasets/Patt/HellaSwag_thai)
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks hellaswag_th --device cuda:0`
-
-#### 2. RTE_TH
-
-- From: [`Patt/RTE_TH_drop`](https://huggingface.co/datasets/Patt/RTE_TH_drop)
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/rte --device cuda:0`
-
-#### 3. Record_TH
-
-- From [`Patt/ReCoRD_TH_drop`](https://huggingface.co/datasets/Patt/ReCoRD_TH_drop)
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/record --device cuda:0`
-
-####  4. MultiRC_TH
-
-- From [`Patt/MultiRC_TH_drop`](https://huggingface.co/datasets/Patt/MultiRC_TH_drop)
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/multirc --device cuda:0`
-
-#### 5. XQuad_TH
-
-- From [`google/xquad`](https://huggingface.co/datasets/google/xquad)
-
-- subset: `xquad.th`
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2  --tasks scripts/xquad_th --device cuda:0`
-  
-### Natively Support by `lm-evaluation-harness`
-
-#### 1. XCopa (TH)
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks xcopa_th --device cuda:0`
-
-#### 2. XNLI (TH)
-
-- `lm_eval --model hf --model_args pretrained=distilgpt2 --tasks xnli_th --device cuda:0`
->>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
