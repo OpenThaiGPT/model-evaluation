@@ -1,0 +1,13 @@
+task: multirc_th
+dataset_path: "Patt/MultiRC_TH_drop"
+dataset_name: null
+output_type: multiple_choice
+training_split: train
+validation_split: validation
+doc_to_text: "{{paragraph_TH}}\nQuestion: {{question_TH}}\nAnswer:"
+doc_to_target: label
+doc_to_choice: "['''{{answer_TH}}\\nIs the answer correct? yes''', '''{{answer_TH}}\\nIs the answer correct? no''']"
+metric_list:
+  - metric: acc
+metadata:
+  version: 2.0
