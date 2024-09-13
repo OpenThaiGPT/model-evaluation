@@ -3,7 +3,11 @@ from datasets import load_dataset, load_metric
 from tqdm import tqdm
 import argparse
 import json
+<<<<<<< HEAD
 import os
+=======
+
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
 
 def generate_summary(text, model, tokenizer):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=1024)
@@ -23,6 +27,7 @@ def evaluate_model(
     pretrained,
     dataset,
     split,
+<<<<<<< HEAD
     out_path,
     progress_bar=True,
 ):
@@ -32,6 +37,14 @@ def evaluate_model(
     dataset = load_dataset(dataset, split=split)
     # dataset = dataset.select(range(3))
     #load rouge & blue
+=======
+    progress_bar=True,
+):
+    tokenizer = AutoTokenizer.from_pretrained(pretrained)
+    model = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+    dataset = load_dataset(dataset, trust_remote_code=True, split=split)
+    dataset = dataset.select(range(3))
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
     rouge = load_metric("rouge", trust_remote_code=True)
     bleu = load_metric("bleu", trust_remote_code=True)
 
@@ -39,7 +52,10 @@ def evaluate_model(
     references = []
     hypotheses = []
 
+<<<<<<< HEAD
     # Loop for predictions
+=======
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
     if progress_bar:
         with tqdm(total=len(dataset), desc="Generating Summaries") as pbar:
             for example in dataset:
@@ -55,7 +71,11 @@ def evaluate_model(
             references.append(reference)
             hypotheses.append(hypothesis)
 
+<<<<<<< HEAD
     # C ROUGE scores
+=======
+    # Compute ROUGE scores
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
     rouge_result = rouge.compute(predictions=hypotheses, references=references, use_aggregator=True)
 
     # Compute BLEU scores (Note: BLEU expects tokenized input)
@@ -64,6 +84,7 @@ def evaluate_model(
         references=[[ref.split()] for ref in references],
     )
 
+<<<<<<< HEAD
     # report results
     print("ROUGE Scores:", rouge_result)
     print("BLEU Score:", bleu_result)
@@ -73,6 +94,15 @@ def evaluate_model(
         json.dump(rouge_result, f, indent=4)
 
     with open(os.path.join(out_path, "bleu_result.json"), "w") as f:
+=======
+    print("ROUGE Scores:", rouge_result)
+    print("BLEU Score:", bleu_result)
+
+    with open("rouge_result.json", "w") as f:
+        json.dump(rouge_result, f, indent=4)
+
+    with open("bleu_result.json", "w") as f:
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
         json.dump(bleu_result, f, indent=4)
 
 
@@ -99,17 +129,24 @@ def main():
         default="test",
         help="The dataset split to evaluate on (default: test).",
     )
+<<<<<<< HEAD
     parser.add_argument(
         "--out_path",
         type=str,
         default=".",
         help="save_path for results.",
     )
+=======
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
 
     args = parser.parse_args()
 
     # Call the evaluation function
+<<<<<<< HEAD
     evaluate_model(args.pretrained, args.dataset, args.split, args.out_path)
+=======
+    evaluate_model(args.pretrained, args.dataset, args.split)
+>>>>>>> a27ab3c5fd70c3f1caf6cb4c19c2d1161697316e
 
 
 if __name__ == "__main__":
