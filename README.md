@@ -79,8 +79,9 @@ LST20 is a large-scale dataset for Thai NER (Named Entity Recognition) tasks.
 - Extract the downloaded `AIFORTHAI-LST20Corpus.tar.gz` file to your desired directory.
 - Ensure you have CUDA installed if you plan to run the model on a GPU.
 - Run the evaluation script with the following command:
+
   ```bash
-python scripts/lst20/lst20.py --pretrained "pythainlp/thainer-corpus-v2-base-model" --lst20_path "AIFORTHAI-LST20Corpus/LST20_Corpus" --cuda --split "test" --task "ner" --token_mapping_path  "scripts/lst20/token_mapping.txt"
+  python scripts/lst20/lst20.py --pretrained "pythainlp/thainer-corpus-v2-base-model" --lst20_path "AIFORTHAI-LST20Corpus/LST20_Corpus" --cuda --split "test" --task "ner" --token_mapping_path  "scripts/lst20/token_mapping.txt"
   ```
 - This command will evaluate the `thainer-corpus-v2-base-model` on the test split of the LST20 dataset.
 
@@ -192,4 +193,5 @@ XNLI is a cross-linguistic version of the NLI (Natural Language Inference) datas
 
 ### Thai Exam
 - We forked from `OpenThaiGPT/openthaigpt_eval` so that will further customize to add prompts
-- read this:
+- We have added exam data (csv): A-Level, TPAT-1, TGAT from [thai_exam](https://huggingface.co/datasets/scb10x/thai_exam)
+- Read this for details: [Here](https://github.com/OpenThaiGPT/model-evaluation/tree/main/thai-exam/exams)
