@@ -26,6 +26,34 @@ def evaluate_model(
     out_path,
     progress_bar=True,
 ):
+    """
+    Evaluate a sequence-to-sequence model on a given dataset and compute ROUGE and BLEU scores.
+
+    This function loads a pre-trained sequence-to-sequence model and tokenizer, processes the dataset,
+    generates summaries for each example in the dataset, and evaluates the generated summaries using
+    ROUGE and BLEU metrics. Results are saved to specified output files.
+
+    Args:
+        pretrained (str): The identifier or path for the pre-trained model and tokenizer.
+        dataset (str): The name or path of the dataset to evaluate.
+        split (str): The dataset split to use (e.g., "train", "test").
+        out_path (str): The directory path where the evaluation results will be saved.
+        progress_bar (bool, optional): Whether to display a progress bar during summary generation.
+                                        Default is True.
+
+    Returns:
+        None: This function prints out ROUGE and BLEU scores and saves the results to JSON files.
+
+    Example:
+        evaluate_model(
+            pretrained="facebook/bart-large-cnn",
+            dataset="cnn_dailymail",
+            split="test",
+            out_path="/path/to/output",
+            progress_bar=True
+        )
+    """
+    
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained(pretrained)
     model = AutoModelForSeq2SeqLM.from_pretrained(pretrained)

@@ -80,7 +80,7 @@ LST20 is a large-scale dataset for Thai NER (Named Entity Recognition) tasks.
 - Ensure you have CUDA installed if you plan to run the model on a GPU.
 - Run the evaluation script with the following command:
   ```bash
-  python scripts/lst20/lst20.py --cuda --pretrained pythainlp/thainer-corpus-v2-base-model --lst20_path AIFORTHAI-LST20Corpus/LST20_Corpus --split test
+python scripts/lst20/lst20.py --pretrained "pythainlp/thainer-corpus-v2-base-model" --lst20_path "AIFORTHAI-LST20Corpus/LST20_Corpus" --cuda --split "test" --task "ner" --token_mapping_path  "scripts/lst20/token_mapping.txt"
   ```
 - This command will evaluate the `thainer-corpus-v2-base-model` on the test split of the LST20 dataset.
 

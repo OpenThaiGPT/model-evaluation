@@ -5,3 +5,4 @@ bleu_result.json
 rouge_result.json
 EMPTY
 *.pyc
+thai-exam/outputs/*

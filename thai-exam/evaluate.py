@@ -82,7 +82,7 @@ def main(init, inference, model_name, model_path_or_api_key=None):
         is_existed = False
 
     # Answer file name
-    with open(filename, 'a') as f:
+    with open(filename, 'a', encoding="utf-8") as f:
         if (not is_existed):
             f.write("Exam name" + "\t"+ "Year" + "\t" + "Question No" + "\t" +  "Question" + "\t" + "Choices" + "\t" + "Model Answer" + "\t" + "Solution" + "\t" + "Is Correct?" + '\n')
             f.flush()
