@@ -1,0 +1,22 @@
+[build-system]
+requires = [
+    "setuptools>=40.8.0",
+    "wheel"
+]
+
+[project]
+name = "model_evaluation"
+version = "0.0.0"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "datasets==3.0.0",
+    "seqeval==1.2.2",
+    "transformers==4.44.2",
+    "torch", # Version will be pulled from the custom index URL
+    "torchvision",
+    "torchaudio"
+]
+
+[tool.pip_install]
+torch = "--index-url https://download.pytorch.org/whl/cu121"

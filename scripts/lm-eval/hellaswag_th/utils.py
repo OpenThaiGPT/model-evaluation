@@ -1,6 +1,7 @@
 import re
 import datasets
 
+
 def preprocess(text):
     text = text.strip()
     # NOTE: Brackets are artifacts of the WikiHow dataset portion of HellaSwag.
