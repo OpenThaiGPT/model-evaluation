@@ -7,7 +7,7 @@ import pandas as pd
 import re
 exam_path = './exams'
 answer_pattern = r"\([1-5]\)"
-
+from prompt import prompt
 # current date time
 from datetime import datetime
 now = datetime.now()
@@ -108,7 +108,7 @@ def main(init, inference, model_name, model_path_or_api_key=None):
                     input = str(row.input).replace("\t"," ").strip()
                     result = str(row.result).replace("\t"," ").strip()
                     
-                    instruction = f"ตอบคำถามดังต่อไปนี้โดยการเลือกคำตอบตาม Choice ที่กำหนดให้เท่านั้น ไม่ต้องอธิบายเพิ่ม อาทิเช่น 'คำตอบที่ถูกต้องคือ (1)'\nคำถาม: {instruction}\nChoice: {input}"
+                    instruction = prompt.format(instruction, input)
                     answer = inference(instruction)
                     correct = check_answer(answer, result)
                     

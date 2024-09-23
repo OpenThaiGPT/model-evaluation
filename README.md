@@ -1,6 +1,57 @@
 
 # Model Evaluation
 
+# Run Evaluation Scripts
+
+
+This section provides scripts for running evaluations on different datasets using pre-trained models. Make sure to follow the instructions for each task to ensure proper setup and execution.
+
+There is a reuqiredments to install:
+
+```Python
+git clone https://github.com/OpenThaiGPT/model-evaluation.git
+pip install -e .
+```
+
+## 1. ThaiSUM
+
+- ThaiSUM is a dataset used for text summarization tasks in the Thai language.
+- This will evaluated using ROUGE, BLEU score and used `attacut` to tokenize
+- When running evaluation successfully. `rouge_score.json` and `bleu_score.json` will be generated in directory.
+- Run using this code:
+```bash
+script/thaisum/thaisum.py --model <model> --thaisum_path <path> --split <split> --limit <limit>
+```
+- `model`: supported models can be seen at `src/model_evaluation/models`
+- `thaisum_path`: a path of dataset (HF format)
+- `split`: a subset of datasets
+- `limit`: to sample element in a given dataset
+
+**You can call API by the following steps**
+- Go to directory: `cd script/thaisum`
+- Edit `__name__ == "__main__"` section
+- Some example code:
+```Python
+from model_evaluation.models.openthaigpt_hf_7b_2023 import OpenThaiGPTHF7B20234
+
+model = OpenThaiGPTHF7B2023(model_name="openthaigpt/openthaigpt-1.0.0-7b-chat")
+thaisum(model, thaisum_path="nakhun/thaisum", split="test", limit=20)
+```
+
+## 2. LST20
+
+- LST20 is a large-scale dataset for Thai NER (Named Entity Recognition) tasks.
+- **Download LST20** from [AIForThai](https://aiforthai.in.th/corpus.php).
+  - Extract the downloaded `AIFORTHAI-LST20Corpus.tar.gz` file to your desired directory.
+- Run using this code:
+```bash
+python scripts/lst20/lst20.py --model <model> --lst20_path "path/to/AIFORTHAI-LST20Corpus/LST20_Corpus" --split <split> --limit <limit>
+```
+- `model`: supported models can be seen at `src/model_evaluation/models`
+- `lst20_path`: a path of dataset (HF format) loaded from AiForThai
+- `split`: a subset of datasets
+- `limit`: to sample element in a given dataset
+  
 ## lm-evaluation-harness (https://github.com/EleutherAI/lm-evaluation-harness)
 
 lm-eval-harness เป็นเครื่องมือที่ใช้ในการทดสอบประสิทธิภาพของโมเดลภาษา (Language Models หรือ LM) ในงานต่าง ๆ เช่น การตอบคำถาม, การทำนายคำต่อไป, หรือการแปลภาษา โดยเครื่องมือนี้จะช่วยวัดความสามารถของโมเดลในการทำงานตาม task ที่กำหนด และให้ประเมินผลลัพธ์ในรูปแบบของค่า metrices ต่าง ๆ เช่น accuracy หรือ similarity
@@ -10,9 +61,11 @@ lm-eval-harness ถูกออกแบบให้ใช้งานง่า�
 โดยสรุป lm-eval-harness เป็นเครื่องมือที่มีประโยชน์สำหรับการประเมินโมเดลภาษาในหลาย ๆ งาน ช่วยให้ Developer เข้าใจถึงประสิทธิภาพของโมเดลในสถานะการณ์สภาพแวดล้อมต่าง ๆ ได้มากขึ้น
 
 ### Installation
+
+To use GPT, requiring CUDA-supported torch download at https://pytorch.org/get-started/locally
+
 ```bash
 git clone https://github.com/EleutherAI/lm-evaluation-harness
-cd lm-evaluation-harness
 pip install -e lm-evaluation-harness
 ```
 
@@ -47,151 +100,96 @@ pip install -e lm-evaluation-harness
 | `--seed`                 | `None`           | `str`    | `"0,1234,1234,1234"` | กำหนด seed สำหรับ `random`, `numpy`, `torch`, และการสุ่มตัวอย่าง fewshot ค่าเริ่มต้นคือ `"0,1234,1234,1234"`                  |
 | `--trust_remote_code`    | `None`           | `bool`   | `False`              | `trust_remote_code` เป็น `True` เพื่อสร้าง HF Datasets จาก Hub                                                                                                |
 
-## Run Evaluation Scripts
-
-### Custom Pipeline
-
-This section provides scripts for running evaluations on different datasets using pre-trained models. Make sure to follow the instructions for each task to ensure proper setup and execution.
-
-#### 1. ThaiSUM
-
-ThaiSUM is a dataset used for text summarization tasks in the Thai language.
-
-**Instructions:**
-
-- Ensure you have Python and the required libraries installed. If not, install them using:
-  ```bash
-  pip install transformers datasets
-  ```
-- Run the evaluation script for the ThaiSUM dataset using the following command:
-  ```bash
-  python scripts/thaisum/thaisum.py --pretrained "preechanon/mt5-base-thaisum-text-summarization" --dataset "nakhun/thaisum" --split "test"
-  ```
-- This command will use the pre-trained model `mt5-base-thaisum-text-summarization` and evaluate it on the test split of the `nakhun/thaisum` dataset.
-
-#### 2. LST20
-
-LST20 is a large-scale dataset for Thai NER (Named Entity Recognition) tasks.
-
-**Instructions:**
-
-- Download the LST20 dataset from [AIForThai](https://aiforthai.in.th/corpus.php). You'll need to log in and navigate to the "Corpus" section to find the LST20 Corpus.
-- Extract the downloaded `AIFORTHAI-LST20Corpus.tar.gz` file to your desired directory.
-- Ensure you have CUDA installed if you plan to run the model on a GPU.
-- Run the evaluation script with the following command:
-
-  ```bash
-  python scripts/lst20/lst20.py --pretrained "pythainlp/thainer-corpus-v2-base-model" --lst20_path "AIFORTHAI-LST20Corpus/LST20_Corpus" --cuda --split "test" --task "ner" --token_mapping_path  "scripts/lst20/token_mapping.txt"
-  ```
-- This command will evaluate the `thainer-corpus-v2-base-model` on the test split of the LST20 dataset.
-
-#### 3. Wisesight Sentiment
-
-Wisesight Sentiment is a dataset for sentiment analysis in the Thai language.
-
-**Instructions:**
-
-- Install the `lm-evaluation-harness` package if you haven't already:
-  ```bash
-  pip install lm-evaluation-harness
-  ```
-- Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/wisesight_sentiment --device cuda:0
-  ```
-- Replace `distilgpt2` with your preferred pre-trained model if needed.
-
-### Custom YAML Files with `lm-evaluation-harness`
+## Custom YAML Files with `lm-evaluation-harness`
 
 This section provides scripts for evaluating models on translated datasets using custom YAML files with `lm-evaluation-harness`.
 
-#### 1. Hellaswag_TH
+### Copy the config into `lm-evaluation-harness\lm_eval\tasks` then run it directly. Errors may occured when run outside of `lm-evaluation-harness\lm_eval\tasks` 
 
-Hellaswag_TH is a translated version of the Hellaswag dataset into Thai.
+### 1. Hellaswag_TH
 
-**Instructions:**
-
+- Hellaswag_TH is a translated version of the Hellaswag dataset into Thai.
 - The dataset is available at [`Patt/HellaSwag_thai`](https://huggingface.co/datasets/Patt/HellaSwag_thai).
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/hellaswag --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks hellaswag_th
+```
 
-#### 2. RTE_TH
+### 2. RTE_TH
 
-RTE_TH is a translated version of the RTE (Recognizing Textual Entailment) dataset into Thai.
-
-**Instructions:**
-
+- RTE_TH is a translated version of the RTE (Recognizing Textual Entailment) dataset into Thai.
 - The dataset is available at [`Patt/RTE_TH_drop`](https://huggingface.co/datasets/Patt/RTE_TH_drop).
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/rte --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks rte_th
+```
 
-#### 3. Record_TH
+### 3. Record_TH
 
-Record_TH is a translated version of the ReCoRD (Reading Comprehension with Commonsense Reasoning Dataset) into Thai.
-
-**Instructions:**
-
+- Record_TH is a translated version of the ReCoRD (Reading Comprehension with Commonsense Reasoning Dataset) into Thai.
 - The dataset is available at [`Patt/ReCoRD_TH_drop`](https://huggingface.co/datasets/Patt/ReCoRD_TH_drop).
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/record --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks record_th
+```
 
-#### 4. MultiRC_TH
+### 4. MultiRC_TH
 
-MultiRC_TH is a translated version of the MultiRC (Multi-Sentence Reading Comprehension) dataset into Thai.
-
-**Instructions:**
-
+- MultiRC_TH is a translated version of the MultiRC (Multi-Sentence Reading Comprehension) dataset into Thai.
 - The dataset is available at [`Patt/MultiRC_TH_drop`](https://huggingface.co/datasets/Patt/MultiRC_TH_drop).
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/multirc --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks multirc_th
+```
 
-#### 5. XQuad_TH
+### 5. XQuad_TH
 
 XQuad_TH is a translated subset of the XQuad dataset into Thai, focusing on question answering.
-
-**Instructions:**
-
 - The subset is available from the `google/xquad` dataset on Hugging Face, specifically `xquad.th`.
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks scripts/xquad_th --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks xquad_th
+```
+
+### 6. Wisesight Sentiment
+
+- Wisesight Sentiment is a dataset for sentiment analysis in the Thai language.
+- The dataset is available at [`pythainlp/wisesight_sentiment`](https://huggingface.co/datasets/pythainlp/wisesight_sentiment).
+- Run the evaluation using the following command:
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks wisesight_sentiment
+```
 
 ### Natively Supported by `lm-evaluation-harness`
 
 These tasks are natively supported by the `lm-evaluation-harness` tool and do not require custom scripts.
 
-#### 1. XCopa (TH)
+### 1. XCopa (TH)
 
-XCopa is a cross-linguistic version of the Choice of Plausible Alternatives (COPA) dataset.
-
-**Instructions:**
-
+- XCopa is a cross-linguistic version of the Choice of Plausible Alternatives (COPA) dataset.
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks xcopa_th --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks xcopa_th
+```
 
-#### 2. XNLI (TH)
+### 2. XNLI (TH)
 
-XNLI is a cross-linguistic version of the NLI (Natural Language Inference) dataset.
-
-**Instructions:**
-
+- XNLI is a cross-linguistic version of the NLI (Natural Language Inference) dataset.
 - Run the evaluation using the following command:
-  ```bash
-  lm_eval --model hf --model_args pretrained=distilgpt2 --tasks xnli_th --device cuda:0
-  ```
+```bash
+lm_eval --model hf --model_args "pretrained=<pretrained>" --tasks xnli_th
+```
 
-### Thai Exam
+
+## Thai Exam
 - We forked from `OpenThaiGPT/openthaigpt_eval` so that will further customize to add prompts
 - We have added exam data (csv): A-Level, TPAT-1, TGAT from [thai_exam](https://huggingface.co/datasets/scb10x/thai_exam)
-- Read this for details: [Here](https://github.com/OpenThaiGPT/model-evaluation/tree/main/thai-exam/exams)
+- Read this for details [Here](https://github.com/OpenThaiGPT/model-evaluation/tree/main/thai-exam/exams)
+
+## Notes
+
+- Torch with CUDA is required.
+  - `pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
+
+- Accerlate from HF also required when using `device_map`.
+  - `pip install git+https://github.com/huggingface/accelerate`

@@ -6,3 +6,5 @@ rouge_result.json
 EMPTY
 *.pyc
 thai-exam/outputs/*
+.ipynb_checkpoints
+**.egg-info
